@@ -1,9 +1,9 @@
 use rocket:: serde:: {Deserialize, Serializer};
-use rocket:: Log;
-use rocket:: serde:: json:: to_string;
-use rocket:: tokio;
+use rocket::log;
+use rocket::serde:: json::to_string;
+use rocket::tokio;
 use bambangshop:: REQWEST_CLIENT;
-use crate::model:: notification:: Notification;
+use crate::model::notification::Notification;
 
 #[derive(Debug, Clone, Deserialize, Serialize)]
 #[serde (crate = "rocket:: serde") ]
