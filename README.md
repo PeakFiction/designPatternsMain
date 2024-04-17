@@ -65,11 +65,11 @@ You can install Postman via this website: https://www.postman.com/downloads/
     -   [V] Commit: `Implement unsubscribe function in Notification controller.`
     -   [V] Write answers of your learning module's "Reflection Publisher-2" questions in this README.
 -   **STAGE 3: Implement notification mechanism**
-    -   [ ] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
-    -   [ ] Commit: `Implement notify function in Notification service to notify each Subscriber.`
-    -   [ ] Commit: `Implement publish function in Program service and Program controller.`
-    -   [ ] Commit: `Edit Product service methods to call notify after create/delete.`
-    -   [ ] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
+    -   [V] Commit: `Implement update method in Subscriber model to send notification HTTP requests.`
+    -   [V] Commit: `Implement notify function in Notification service to notify each Subscriber.`
+    -   [V] Commit: `Implement publish function in Program service and Program controller.`
+    -   [V] Commit: `Edit Product service methods to call notify after create/delete.`
+    -   [V] Write answers of your learning module's "Reflection Publisher-3" questions in this README.
 
 ## Your Reflections
 This is the place for you to write reflections:
@@ -108,3 +108,15 @@ Separating Services and Repositories from Models offers significant advantages i
 I've been looking into Postman as a tool to test our group project's API functionality. It seems like a great way to send simulated requests and see the server's response, helping us identify bugs early on. I'm particularly interested in features like building collections to organize different API calls and environment variables to easily switch between test configurations. This could be a real time saver for our project and future ones, allowing us to focus on core development instead of writing repetitive test scripts.
 
 #### Reflection Publisher-3
+*Observer Pattern has two variations: Push model (publisher pushes data to subscribers) and Pull model (subscribers pull data from publisher). In this tutorial case, which variation of Observer Pattern that we use?*
+
+The tutorial's code leverages the Observer Pattern's Push model. Here, the NotificationService acts as the publisher (or subject) actively pushing data (notification payload) to its subscribers (observers). This is evident in the notify method's for-loop, where it iterates through subscribed observers and calls their update method with the notification details. This eliminates the need for subscribers to constantly pull data – instead, the publisher takes the initiative to broadcast updates whenever a relevant event happens.
+
+*What are the advantages and disadvantages of using the other variation of Observer Pattern for this tutorial case? (example: if you answer Q1 with Push, then imagine if we used Pull)*
+
+Unlike the Push model where updates are broadcasted, the Pull model in the Observer Pattern has subscribers actively fetching data from the publisher. This tighter coupling exposes the publisher's internal state to subscribers. However, it offers advantages: subscribers control update frequency and data retrieval, ideal for scenarios with varying needs or limited bandwidth. Additionally, network traffic is minimized since updates are only requested, not constantly pushed.  The downside is increased complexity.  Subscribers need logic to request and handle updates, and latency can arise if updates aren't pulled frequently, potentially leading to stale data.
+
+*Explain what will happen to the program if we decide to not use multi-threading in the notification process.*
+
+If we decide not to use multi-threading in the notification process, the program will likely experience blocking behavior during notification sending. In the current implementation, each notification is sent to subscribers using a separate thread, allowing the program to continue executing without waiting for each notification to be delivered. Without multi-threading, sending notifications to subscribers would occur sequentially, meaning that the program would wait for each notification to be sent before moving on to the next one. This could result in significant delays, especially if there are many subscribers or if sending notifications involves network requests that take a non-trivial amount of time. As a consequence, the overall performance and responsiveness of the program would be negatively impacted. Users may experience delays in response times, and the program's ability to handle concurrent requests or events could be limited. In scenarios where timely notification delivery is critical, such as real-time systems or applications with high concurrency requirements, not using multi-threading for notification processing could lead to suboptimal performance and user experience.
+
